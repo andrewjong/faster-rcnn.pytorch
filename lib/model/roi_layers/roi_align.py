@@ -49,11 +49,17 @@ roi_align = _ROIAlign.apply
 class ROIAlign(nn.Module):
     def __init__(self, output_size, spatial_scale, sampling_ratio):
         super(ROIAlign, self).__init__()
+        print("DEBUG: INIT ROIALIGN OBJECT")
+        print(f"DEBUG: OUTPUT SIZE: {output_size}")
+        print(f"DEBUG: SPATIAL_SCALE: {spatial_scale}")
+        print(f"DEBUG: SAMPLING_RATIO: {sampling_ratio}")
         self.output_size = output_size
         self.spatial_scale = spatial_scale
         self.sampling_ratio = sampling_ratio
 
     def forward(self, input, rois):
+        print("DEBUG: INPUT SHAPE:", input.shape)
+        print("DEBUG: ROIS:", rois.shape)
         return roi_align(
             input, rois, self.output_size, self.spatial_scale, self.sampling_ratio
         )
