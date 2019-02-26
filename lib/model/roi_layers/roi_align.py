@@ -45,6 +45,7 @@ class _ROIAlign(Function):
 
 roi_align = _ROIAlign.apply
 
+count = 0
 
 class ROIAlign(nn.Module):
     def __init__(self, output_size, spatial_scale, sampling_ratio):
@@ -58,8 +59,18 @@ class ROIAlign(nn.Module):
         self.sampling_ratio = sampling_ratio
 
     def forward(self, input, rois):
-        print("DEBUG: INPUT SHAPE:", input.shape)
-        print("DEBUG: ROIS:", rois.shape)
+        global count
+        if count % 10 == 0:
+            print("DEBUG: INPUT SHAPE:", input.shape)
+            print("DEBUG: INPUT DTYPE:", input.dtype)
+            print("DEBUG: INPUT MIN:", input.min())
+            print("DEBUG: INPUT MAX:", input.max())
+            print("DEBUG: INPUT IS_CUDA:", input.is_cuda)
+            print("DEBUG: ROIS SHAPE:", rois.shape)
+            print("DEBUG: FIRST 2 ROIS:", rois[:2])
+            print("DEBUG: ROIS IDS:", rois[:, 0])
+
+        count+=1
         return roi_align(
             input, rois, self.output_size, self.spatial_scale, self.sampling_ratio
         )
